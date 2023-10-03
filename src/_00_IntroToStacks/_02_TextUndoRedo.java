@@ -24,31 +24,42 @@ public class _02_TextUndoRedo implements KeyListener{
      * pressed, the top Character is popped  off the Stack and added back to
      * the JLabel.
      */
-	 private JFrame frame;
-	 private JPanel panel;
-	 private JLabel label;
-	 Stack <String> txtStack = new Stack<String>();
-	    public _02_TextUndoRedo() {
-	        frame = new JFrame("Text Editor");
-	        panel = new JPanel();
-	        label = new JLabel("");
-	        
-	        panel.add(label);
-	        frame.add(panel);
-
-	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	        frame.setSize(400, 200);
-	        frame.setVisible(true);
-	        
-	        
-	    }
+	 private static JFrame frame;
+	 private static JPanel panel;
+	 private static JLabel label;
+	 Stack <Character> txtStack = new Stack<Character>();
+	 public void setup() {
+		frame = new JFrame("Text Editor");
+		panel = new JPanel();
+		label = new JLabel();
+		
+		panel.add(label);
+		frame.add(panel);
+		
+		frame.addKeyListener(this);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setSize(400, 200);
+		frame.setVisible(true);
+	 }
+	
 
 	public void keyPressed(KeyEvent e) {
+		char typedChar = e.getKeyChar();
 		if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
 			String labelText = label.getText();
-            labelText = txtStack.toString();
+			char last = labelText.charAt(labelText.length()-1);
+			txtStack.push(last);
+			labelText = labelText.substring(0, labelText.length()-1);
             label.setText(labelText);
+            frame.pack();
+            System.out.println(labelText);
 		}
+		if (typedChar != KeyEvent.VK_BACK_SPACE) {
+			String labelText = label.getText()+typedChar;
+            label.setText(labelText);
+            frame.pack();
+            System.out.println(labelText);
+        }
 	}
 	@Override
 	public void keyReleased(KeyEvent arg0) {
@@ -57,13 +68,10 @@ public class _02_TextUndoRedo implements KeyListener{
 	}
 	@Override
 	public void keyTyped(KeyEvent e) {
-		char typedChar = e.getKeyChar();
-        if (typedChar != KeyEvent.VK_BACK_SPACE) {
-            txtStack.push(typedChar);
-            label.setText(label.getText() + typedChar);
-        }
+		
+        
 		
 	}
 
-
 }
+
