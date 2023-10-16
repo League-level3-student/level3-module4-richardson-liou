@@ -37,30 +37,35 @@ public class _02_BaseballTickets {
 
     public static int calculateWaitTime( ArrayDeque<Integer> ticketsQueue, int position ) {
     	int time = 0;
-    	while(true){
-    		for(int i = 0; i<ticketsQueue.size(); i++) {
-    			
-				int temp = ticketsQueue.removeFirst();
-				if(position==0&&temp==1) {
-					time+=1;
-					return time;
-				}
-				//else if(position !=0 && temp ==0){
-					
-					
-				//}
-				if (position == 0)
-				{
-					position = ticketsQueue.size()-1;
-				}
-				else {
-					position-=1;
-				}
-				ticketsQueue.add(temp-1);
-				
-				time+=1;
+        
+        
+        while (true) {
+            int currentPersonTickets = ticketsQueue.poll(); 
+            if (currentPersonTickets - 1 > 0) {
+                ticketsQueue.add(currentPersonTickets - 1);
+            }
+            
+            time++; 
+            
+            if (position == 0) {
+            	currentPersonTickets--; 
+                position = ticketsQueue.size()-1;
+                if (currentPersonTickets == 0) {
+                    break; 
+                }
+            }
+            else {
+            	position-=1;
+            }
+            
+            
+
+            
+        }
+
+        return time;
     	}
-    	}
+    	
 
     }
-}
+
