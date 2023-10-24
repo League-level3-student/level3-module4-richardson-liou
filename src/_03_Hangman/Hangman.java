@@ -67,18 +67,20 @@ public class Hangman {
 				else {
 					lives -=1;
 					livenum.setText("Lives: " +lives);
+					if (lives<=0) {
+						JOptionPane.showMessageDialog(null, "Game Over!");
+						String yorn = JOptionPane.showInputDialog("Play Again? Yes or no");
+						if (yorn.toLowerCase().equals("no")) {
+							break;
+						}
+					}
 				}
 				
 				if(label.getText().contains("_")) {
 					solved = false;
 				}
-				else if (lives<=0) {
-					JOptionPane.showMessageDialog(null, "Game Over!");
-					String yorn = JOptionPane.showInputDialog("Play Again? Yes or no");
-					if (yorn.toLowerCase().equals("no")) {
-						break;
-					}
-				}
+				
+				
 				else if (currWord.equals(label.getText())) {
 					solved = true;
 					JOptionPane.showMessageDialog(null,"You got the word");
